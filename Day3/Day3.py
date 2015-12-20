@@ -1,22 +1,34 @@
+def positionTracker(movementString, positionList):
+
+	curXPos = 0
+	curYPos = 0
+
+	for character in movementString:
+		if character is '<':
+			curXPos += 1
+		elif character is '>':
+			curXPos -= 1
+		elif character is '^':
+			curYPos += 1
+		elif character is 'v':
+			curYPos	-= 1
+		positionList.append((curXPos, curYPos))
+
+
 with open('Day3Input.txt', 'r') as file:
 	for line in file:
 		line = line.strip()
 
-		santaPos = [(0, 0)]
+		santaString = line[::2]
+		roboSantaString = line[1::2]
 
-		curXPos = 0
-		curYPos = 0
+		santaPosPart1 = [(0, 0)]
+		santaPosPart2 = [(0, 0)]
+		roboSantaPosPart2 = [(0, 0)]
 
-		for character in line:
-			if character is '<':
-				curXPos += 1
-			elif character is '>':
-				curXPos -= 1
-			elif character is '^':
-				curYPos += 1
-			elif character is 'v':
-				curYPos	-= 1
-			santaPos.append((curXPos, curYPos))
+		positionTracker(line, santaPosPart1)
+		positionTracker(santaString, santaPosPart2)
+		positionTracker(roboSantaString, roboSantaPosPart2)
 
 		# Grid I used for figuring out the next calculation
 		# There will always be a dimension of 1 - Santa starts on the first square
@@ -31,8 +43,11 @@ with open('Day3Input.txt', 'r') as file:
 		#     x x 8
 		#     x x 9
 
-		uniqueHouses = list(set(santaPos))
-		print("Unique houses visited: %s" % len(uniqueHouses))
+		uniqueHouses = list(set(santaPosPart1))
+		print("Unique houses visited in Part 1: %s" % len(uniqueHouses))
+
+		uniqueHouses = list(set(santaPosPart2 + roboSantaPosPart2))
+		print("Unique houses visited in Part 2: %s" % len(uniqueHouses))
 
 
 
