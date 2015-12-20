@@ -8,41 +8,21 @@ with open('Day3Input.txt', 'r') as file:
 	for line in file:
 		line = line.strip()
 
-		xMostNegative = 0
-		yMostNegative = 0
-
-		movesLeft  = 0
-		movesRight = 0
-		movesUp    = 0
-		movesDown  = 0
-
 		santaPos = [(0, 0)]
 
 		curXPos = 0
 		curYPos = 0
-		xPosSanta = [0]
-		yPosSanta = [0]
 
 		for character in line:
 			if character is '<':
-				xPosSanta.append(xPosSanta[-1] + 1)
 				curXPos += 1
 			elif character is '>':
-				xPosSanta.append(xPosSanta[-1] - 1)
 				curXPos -= 1
 			elif character is '^':
-				yPosSanta.append(yPosSanta[-1] + 1)
 				curYPos += 1
 			elif character is 'v':
-				yPosSanta.append(yPosSanta[-1] - 1)
 				curYPos	-= 1
 			santaPos.append((curXPos, curYPos))
-
-		# While we functionally just did this above, it's easier to read redoing this calculation:
-		numUp    = line.count('^')
-		numDown  = -1 * line.count('v')
-		numRight = line.count('>')
-		numLeft  = -1 * line.count('<')
 
 		# Grid I used for figuring out the next calculation
 		# There will always be a dimension of 1 - Santa starts on the first square
@@ -56,11 +36,6 @@ with open('Day3Input.txt', 'r') as file:
 		#     1 2 7
 		#     x x 8
 		#     x x 9
-
-		horizDimen = 1 + max(xPosSanta) - min(xPosSanta)
-		vertDimen  = 1 + max(yPosSanta) - min(yPosSanta)
-		print("Horizontal dimension: %s (Min: %s, Max: %s)" % (horizDimen, min(xPosSanta), max(xPosSanta)))
-		print("Vertical dimension: %s (Min: %s, Max: %s)" % (vertDimen, min(yPosSanta), max(yPosSanta)))
 
 		uniqueHouses = list(set(santaPos))
 		print("Unique houses visited: %s" % len(uniqueHouses))
