@@ -1,9 +1,3 @@
-from operator import mul
-from functools import reduce
-
-totalSquareFootage = 0
-totalRibbon = 0
-
 with open('Day3Input.txt', 'r') as file:
 	for line in file:
 		line = line.strip()
