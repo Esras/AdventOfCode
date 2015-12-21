@@ -9,25 +9,54 @@ TURN_OFF = 0
 TURN_ON  = 1
 TOGGLE   = 2
 
-option = TURN_OFF
+PART_1 = 0
+PART_2 = 1
 
-def manipulateLights(manipOption, beginTuple, endTuple):
+option = TURN_OFF
+mode = PART_2
+
+def manipulateLights(manipOption, beginTuple, endTuple, mode):
 
 	beginList = [int(i) for i in beginTuple.split(',')]
 	endList = [int(i) for i in endTuple.split(',')]
 
 	lightsChanged = 0
 
-	for i in range(endList[0] - beginList[0] + 1):
-		for j in range(endList[1] - beginList[1] + 1):
+	xOffset = beginList[0]
+	yOffset = beginList[1]
+
+	for i in range(endList[0] - xOffset + 1):
+		for j in range(endList[1] - yOffset + 1):
 			if manipOption is TURN_OFF:
-				lightGrid[beginList[0] + i][beginList[1] + j] = 0;
+				if mode == PART_1:
+					nextValue = 0
+				elif mode == PART_2:
+					nextValue = -1
 			elif manipOption is TURN_ON:
-				lightGrid[beginList[0] + i][beginList[1] + j] = 1;
+				if mode == PART_1:
+					nextValue = 1
+				elif mode == PART_2:
+					nextValue = 1
 			elif manipOption is TOGGLE:
-				lightGrid[beginList[0] + i][beginList[1] + j] = not lightGrid[beginList[0] + i][beginList[1] + j]
+				if mode == PART_1:
+					nextValue = not lightGrid[xOffset + i][yOffset + j]
+				elif mode == PART_2:
+					nextValue = 2
 			else:
 				print("OH NOES!")
+
+
+			if mode == PART_1:
+				lightGrid[xOffset + i][yOffset + j] = nextValue
+			elif mode == PART_2:
+				lightGrid[xOffset + i][yOffset + j] += nextValue
+
+				if lightGrid[xOffset + i][yOffset + j] < 0:
+					lightGrid[xOffset + i][yOffset + j] = 0
+
+			else:
+				print("MORE MADNESS!")
+
 			lightsChanged += 1
 
 	# print("Lights changed: %s" % lightsChanged)
@@ -47,16 +76,22 @@ with open('Day6Input.txt', 'r') as file:
 			elif splitList[1] == 'off':
 				# print("Turning off")
 				option = TURN_OFF
-			manipulateLights(option, splitList[2], splitList[4])
+			manipulateLights(option, splitList[2], splitList[4], mode)
 		elif splitList[0] == 'toggle':
 			# print("Toggling")
-			manipulateLights(TOGGLE, splitList[1], splitList[3])
+			manipulateLights(TOGGLE, splitList[1], splitList[3], mode)
 		else:
 			print("ERMAGHERD!")
 
 	for i in range(dimension):
 		for j in range(dimension):
-			if lightGrid[i][j]:
-				numLightsLit += 1
+			if mode == PART_1:
+				if lightGrid[i][j]:
+					numLightsLit += 1
+			elif mode == PART_2:
+				numLightsLit += lightGrid[i][j]
 
-	print("Number of lights lit: %s" % numLightsLit)
+	if mode == PART_1:
+		print("Number of lights lit: %s" % numLightsLit)
+	elif mode == PART_2:
+		print("Brightness of lights lit: %s" % numLightsLit)
