@@ -84,7 +84,6 @@ with open('Day11Input.txt', 'r') as file:
 
 		while not passwordValid:
 			password = IncrementString(password)
-			print(password)
 			passwordValid = CheckValidity(password)
 
 		print("Next Password: %s" % password)
