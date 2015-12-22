@@ -39,3 +39,4 @@ for route in possibleRoutes:
 	routeDistances.append(routeDistance)
 
 print(min(routeDistances))
+print(max(routeDistances))
