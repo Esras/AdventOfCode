@@ -8,6 +8,8 @@ ingredientDict = defaultdict(dict)
 ingredients = []
 scores = []
 
+PART_2 = True
+
 with open('Day15Input.txt', 'r') as file:
 	for line in file:
 		line = line.strip()
@@ -31,11 +33,10 @@ for combo in itertools.combinations_with_replacement(ingredients, NUM_TEASPOONS)
 		numOfIngredient = combo.count(ingredient)
 
 		for property in ingredientDict[ingredient]:
-			if property == 'calories':
-				continue
 			propertyScore[property][ingredient] = numOfIngredient * ingredientDict[ingredient][property]
 
 	cookieScore = 1
+	calorieCount = 0
 	for property in propertyScore:
 
 		runningSum = 0
@@ -45,8 +46,16 @@ for combo in itertools.combinations_with_replacement(ingredients, NUM_TEASPOONS)
 		if runningSum < 0:
 			runningSum = 0
 
-		cookieScore *= runningSum
+		if property != 'calories':
+			cookieScore *= runningSum
+		else:
+			calorieCount = runningSum
 
-	scores.append(cookieScore)
+	if PART_2:
+		if calorieCount == 500:
+			scores.append(cookieScore)
+	else:
+		scores.append(cookieScore)
+
 
 print("Max score: %s" % max(scores))
