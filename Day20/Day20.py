@@ -25,5 +25,21 @@ for i in range(0, int(puzzleNumber / 2)):
 	print("  Sum: %i" % sum)
 	print("  Ori: %i" % puzzleNumber)
 	if sum >= puzzleNumber:
-		print(factorList)
+		#print(factorList)
 		break
+
+numberOfHouses = 1000000 # Also number of elves
+numHousesForEachElf = 50
+
+houses = [0 for i in range(0, numberOfHouses)]
+
+# Part 2
+for elfNum in range(1, numberOfHouses):
+	for houseNum in range(1, numHousesForEachElf):
+		try:
+			houses[elfNum * houseNum] += elfNum * 11
+		except IndexError:
+			break
+	if houses[elfNum] > puzzleNumber:
+		print(elfNum)
+		break;
